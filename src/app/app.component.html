@@ -147,12 +147,8 @@
   </aside>
 </section>
 
-<section id="elSectionReservar" class="container-fluid">
-  <header class="h1 section-header stoke-text-white">
-    RESERVAR
-  </header>
-  <h4>PROXIMAMENTE...</h4>
-</section>
+<app-registry *ngIf="!session"></app-registry>
+
 
 <!-- Footer -->
 <footer class="text-center">

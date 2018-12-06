@@ -11,12 +11,14 @@ import {AppMessageComponent} from './app-message/app-message.component';
 import {LoginRestService} from './shared/services/login-rest.service';
 import {SessionService} from './shared/services/session.service';
 import {AppMessageService} from './shared/services/app-message.service';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    AppMessageComponent
+    AppMessageComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

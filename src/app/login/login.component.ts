@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     this.model = new User('', '');
   }
 
-  onSubmit() {
+  onSubmit(): boolean {
     this.loginService.login(this.model.username, this.model.password).subscribe(
       response => {
         console.dir(response);
@@ -33,6 +33,8 @@ export class LoginComponent implements OnInit {
         console.dir(error);
         this.appMessageService.error(error.error);
       });
+
+    return false;
   }
 
 }
