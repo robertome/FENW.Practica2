@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session';
-import {User} from '../models/user';
-import {Observable, Observer, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {Subscription} from 'rxjs/src/internal/Subscription';
+import {AppMessage} from '../models/app-message';
+import {PartialObserver} from 'rxjs/src/internal/types';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,10 @@ export class SessionService {
   setCurrentSession(session: Session): void {
     this.currentSession = session;
 
-    console.log("Almacenada session " + JSON.stringify(session));
+    console.log('Almacenada session ' + JSON.stringify(session));
     this.storageService.setItem(this.sessionKey, JSON.stringify(session));
 
-    console.log("Notificando inicio de session a suscriptores...");
+    console.log('Notificando inicio de session a suscriptores...');
     this.currentSessionSubject.next(session);
   }
 
@@ -44,7 +45,11 @@ export class SessionService {
     this.currentSessionSubject.next(this.currentSession);
   }
 
-  subscribe(observer: Observer<Session>): Subscription {
+  subscribe(next?: (value: AppMessage) => void, error?: (error: any) => void, complete?: () => void): Subscription {
+    return this.currentSessionSubject.asObservable().subscribe(next, error, complete);
+  }
+
+  subscribe(observer?: PartialObserver<Session>): Subscription {
     return this.currentSessionSubject.asObservable().subscribe(observer);
   }
 

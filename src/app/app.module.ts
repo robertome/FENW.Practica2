@@ -6,14 +6,17 @@ import {HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
+import {AppMessageComponent} from './app-message/app-message.component';
 
 import {LoginRestService} from './shared/services/login-rest.service';
 import {SessionService} from './shared/services/session.service';
+import {AppMessageService} from './shared/services/app-message.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    AppMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +26,8 @@ import {SessionService} from './shared/services/session.service';
   ],
   providers: [
     LoginRestService,
-    SessionService
+    SessionService,
+    AppMessageService
   ],
   bootstrap: [
     AppComponent
