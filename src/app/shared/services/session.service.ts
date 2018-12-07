@@ -1,9 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session';
-import {Subject} from 'rxjs';
-import {Subscription} from 'rxjs/src/internal/Subscription';
-import {AppMessage} from '../models/app-message';
-import {PartialObserver} from 'rxjs/src/internal/types';
+import {PartialObserver, Subject, Subscription} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -40,17 +37,15 @@ export class SessionService {
   }
 
   destroyCurrentSession() {
+    console.log("Session finalizada");
+
     this.storageService.removeItem(this.sessionKey);
     this.currentSession = null;
-    this.currentSessionSubject.next(this.currentSession);
+    this.currentSessionSubject.next(null);
   }
 
-  subscribe(next?: (value: AppMessage) => void, error?: (error: any) => void, complete?: () => void): Subscription {
+  subscribe(next?: (value: Session) => void, error?: (error: any) => void, complete?: () => void): Subscription {
     return this.currentSessionSubject.asObservable().subscribe(next, error, complete);
-  }
-
-  subscribe(observer?: PartialObserver<Session>): Subscription {
-    return this.currentSessionSubject.asObservable().subscribe(observer);
   }
 
 }

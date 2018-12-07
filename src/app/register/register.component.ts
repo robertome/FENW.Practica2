@@ -1,5 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UserService} from '../shared/services/user.service';
+import {AppMessageService} from '../shared/services/app-message.service';
+import {MatchValidator} from './validators/match-validator';
+import {UsernameAvailableAsyncValidator} from './validators/username-available-async-validator';
+import {User} from '../shared/models/user';
+import {AppMessageType} from '../shared/models/app-message-type.enum';
+import {tryCatch} from 'rxjs/internal-compatibility';
+
 
 @Component({
   selector: 'app-registry',
@@ -7,22 +15,46 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
   registerForm: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private appMessageService: AppMessageService) {
   }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.minLength(4)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
-      confirmPassword: ['', Validators.required]
-    }, {
-      validator: RegisterComponent.match('password', 'confirmPassword')
-    });
+        username: ['', {
+          updateOn: 'blur',
+          validators: [Validators.required, Validators.minLength(4)],
+          asyncValidators: [new UsernameAvailableAsyncValidator(this.userService)]
+        }],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(4)]],
+        confirmPassword: ['', Validators.required],
+        birthDate: ['']
+      }, {
+        updateOn: 'submit',
+        validators: [new MatchValidator('password', 'confirmPassword')]
+      }
+    );
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    console.dir(this.birthDate);
+    console.log(this.birthDate.value);
+    try {
+      let user = User.of(this.username.value, this.password.value, this.email.value, this.birthDate.value);
+      console.log('Conectando para alta de usuario...');
+      this.userService.createUser(user).subscribe(
+        ok => this.appMessageService.success(`Usuario '${user.username}' registrado correctamente`));
+    } catch (e) {
+      this.appMessageService.error(`Fallo al registrar usuario: ${e.error}`);
+    }
   }
 
   get username() {
@@ -41,32 +73,9 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('confirmPassword');
   }
 
-  onSubmit() {
-    this.submitted = true;
-    if (this.registerForm.invalid) {
-      return;
-    }
-
-    console.log("Conectando para alta de usuario...");
+  get birthDate() {
+    return this.registerForm.get('birthDate');
   }
 
-  static match(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-
-      if (matchingControl.errors && !matchingControl.errors.match) {
-        // return if another validator has already found an error on the matchingControl
-        return;
-      }
-
-      // set error on matchingControl if validation fails
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({match: true});
-      } else {
-        matchingControl.setErrors(null);
-      }
-    };
-  }
 
 }

@@ -19,11 +19,9 @@
           <div *ngIf="username.errors.minlength">
             El ususario debe tener al menos 4 caracteres
           </div>
-          <!--
-          <div *ngIf="username.errors?.unique">
+          <div *ngIf="username.errors.duplicated">
             El usuario ya esta registrado
           </div>
-          -->
         </div>
       </div>
       <div class="form-group">
@@ -70,7 +68,7 @@
       </div>
       <div class="form-group">
         <label for="elFormRegistroFechaNacimiento">Fecha de nacimiento</label>
-        <input type="text" class="form-control" id="elFormRegistroFechaNacimiento"
+        <input type="date" class="form-control" id="elFormRegistroFechaNacimiento"
                formControlName="birthDate">
       </div>
       <button type="elFormRegistroSubmitButton" class="btn btn-primary">Enviar</button>

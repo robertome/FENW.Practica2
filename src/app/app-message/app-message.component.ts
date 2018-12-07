@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs';
 })
 export class AppMessageComponent implements OnInit {
 
-  private subscription: Subscription<AppMessage>;
+  private subscription: Subscription;
   message: AppMessage;
   showMessage: boolean = false;
 
@@ -18,10 +18,11 @@ export class AppMessageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.appMessageService.subscribe(message => {
-      this.message = message;
-      this.showMessage = true;
-    });
+    this.subscription = this.appMessageService.subscribe(
+      message => {
+        this.message = message;
+        this.showMessage = true;
+      });
   }
 
   ngOnDestroy() {
