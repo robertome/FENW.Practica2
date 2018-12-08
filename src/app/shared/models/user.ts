@@ -7,12 +7,17 @@ export class User {
   constructor() {
   }
 
-  static of(username: string, password?: string, email?: string, birthDate?: Date): User {
+  static of(username: string, password?: string, email?: string, birthDate?: Date | string): User {
+    let dateAsNumber: number;
+    if (birthDate != null) {
+      dateAsNumber = typeof birthDate === 'string' ? null : birthDate.getTime();
+    }
+
     return {
       username: username,
       password: password,
       email: email,
-      birthDate: birthDate != null? birthDate.getTime() : null
+      birthDate: dateAsNumber,
     };
   }
 

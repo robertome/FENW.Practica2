@@ -1,3 +1,5 @@
+import {BsDatepickerConfig} from 'ngx-bootstrap';
+
 export class AppConfig {
   private static instance: AppConfig;
 
@@ -5,6 +7,12 @@ export class AppConfig {
   private _urlUsers = `${this._urlRestApi}/users`;
   private _urlLogin = `${this._urlUsers}/login`;
   private _urlReservations = `${this._urlRestApi}/reservations`;
+
+  private _datePickerConfig: Partial<BsDatepickerConfig> = Object.assign({}, {
+    containerClass: 'theme-dark-blue',
+    showWeekNumbers: false,
+    dateInputFormat: 'DD/MM/YYYY'
+  });
 
   private constructor() {
   }
@@ -32,4 +40,7 @@ export class AppConfig {
     return this._urlReservations;
   }
 
+  get datePickerConfig(): Partial<BsDatepickerConfig> {
+    return this._datePickerConfig;
+  }
 }

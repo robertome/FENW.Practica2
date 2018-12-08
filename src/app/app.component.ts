@@ -3,7 +3,7 @@ import {SessionService} from './shared/services/session.service';
 import {Session} from './shared/models/session';
 import {Subscription} from 'rxjs';
 import {AppMessageService} from './shared/services/app-message.service';
-
+import {BsLocaleService} from 'ngx-bootstrap';
 
 
 @Component({
@@ -15,7 +15,9 @@ export class AppComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private session: Session;
 
-  constructor(private sessionService: SessionService, private appMessageService: AppMessageService) {
+  constructor(private sessionService: SessionService, private appMessageService: AppMessageService, private localeService: BsLocaleService) {
+    // conf locale datePickers
+    this.localeService.use('es');
   }
 
   ngOnInit() {

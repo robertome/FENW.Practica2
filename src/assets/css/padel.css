@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700);
+/*@import url(https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700);*/
 
 #upmlogo {
   height: 45px;
@@ -18,7 +18,7 @@
 }
 
 body {
-  font: 400 15px Poppins, sans-serif;
+  /*font: 400 15px Poppins, sans-serif;*/
   line-height: 1.8;
   color: #000000;
 }

@@ -24,8 +24,6 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
         username: ['', Validators.required],
         password: ['', Validators.required],
-      }, {
-        updateOn: 'submit'
       }
     );
   }
@@ -39,11 +37,14 @@ export class LoginComponent implements OnInit {
     const password = this.password.value;
     this.loginService.login(username, password).subscribe(
       token => {
-        this.sessionService.setCurrentSession(new Session(token, username));
+        if (!token) {
+          this.appMessageService.error('Fallo inesperado: se esperaba token de session');
+        } else {
+          this.sessionService.setCurrentSession(new Session(token, username));
+        }
       },
       error => {
-        console.dir(error);
-        this.appMessageService.error(error.error);
+        this.appMessageService.error(error);
         this.loginForm.reset({});
       });
   }
