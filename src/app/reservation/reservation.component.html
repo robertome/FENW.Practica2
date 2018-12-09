@@ -1,0 +1,74 @@
+<section id="elSectionReservar" class="container-fluid">
+  <header class="h1 section-header stoke-text-white">
+    RESERVAR
+  </header>
+
+  <form role="form" id="elFormReserva" class="container"
+        (ngSubmit)="onSubmit()" #reservationForm="ngForm">
+    <fieldset>
+      <legend>Reserva</legend>
+      <p>* Elija un día para ver las pistas y los horarios disponibles</p>
+      <div class="form-group">
+        <div class="row">
+          <label for="elFormReservaFechaReserva" class="col-sm-12">Fecha de reserva</label>
+          <div class="col-sm-3">
+            <input id="elFormReservaFechaReserva" name="reservationDate" type="text" class="form-control"
+                   placeholder="DD/MM/YYYY" readonly
+                   [(ngModel)]="reservationDate"
+                   bsDatepicker placement="bottom" [bsConfig]="datePickerConfig" [minDate]="minDate" [maxDate]="maxDate"
+                   (bsValueChange)="onReservationDateValueChange($event)">
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showAvailableReservationsLoading">
+        Cargando horarios para la reservas...
+      </div>
+
+      <div *ngIf="!showAvailableReservationsLoading" class="container">
+        <div class="row">
+          <div class="form-group col-sm-3"
+               *ngFor="let entry of availableReservationsMap | keyvalue">
+            <label>PISTA {{entry.key}}</label>
+            <div>
+              <!--
+              <select id="elReservationCourt{{entry.key}}" name="elReservationCourt{{entry.key}}"
+                      class="form-control"
+                      [(ngModel)]="reservationSelected">
+                <option *ngFor="let reservation of entry.value" [value]="reservation"
+                        selected="false">{{reservation.rsvtime}}
+                </option>
+              </select>
+              -->
+
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Horarios disponibles</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let reservation of entry.value">
+                  <td>
+                    <div class="radio">
+                      <label><input type="radio" name="optReservation" (click)="onClickReservation(reservation)">{{reservation.rsvtime}}</label>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <button type="submit" class="btn btn-default btn-medium" [disabled]="!isReservationSelected()">Reservar</button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

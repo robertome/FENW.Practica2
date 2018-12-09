@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
@@ -17,13 +17,16 @@ import {LoginRestService} from './shared/services/login-rest.service';
 import {SessionService} from './shared/services/session.service';
 import {AppMessageService} from './shared/services/app-message.service';
 import {RegisterComponent} from './register/register.component';
+import { ReservationComponent } from './reservation/reservation.component';
+import {TokenInterceptor} from './shared/interceptors/token-interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     AppMessageComponent,
-    RegisterComponent
+    RegisterComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import {RegisterComponent} from './register/register.component';
   providers: [
     LoginRestService,
     SessionService,
-    AppMessageService
+    AppMessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [
     AppComponent

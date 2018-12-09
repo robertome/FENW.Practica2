@@ -8,7 +8,7 @@
       <legend>Registro de usuario</legend>
       <div class="form-group">
         <label for="elFormRegistroUsuario">Usuario *</label>
-        <input type="text" class="form-control" id="elFormRegistroUsuario"
+        <input type="text" class="form-control" id="elFormRegistroUsuario" name="username"
                formControlName="username">
         <div *ngIf="username.pending">Validando...</div>
         <div class="alert alert-danger alter-ego-errors"
@@ -26,7 +26,7 @@
       </div>
       <div class="form-group">
         <label for="elFormRegistroEmail">Email *</label>
-        <input type="email" class="form-control" id="elFormRegistroEmail"
+        <input type="email" class="form-control" id="elFormRegistroEmail" name="email"
                formControlName="email">
         <div class="alert alert-danger alter-ego-errors"
              *ngIf="submitted && email.invalid">
@@ -40,7 +40,7 @@
       </div>
       <div class="form-group">
         <label for="elFormRegistroPassword">Clave *</label>
-        <input type="password" class="form-control" id="elFormRegistroPassword"
+        <input type="password" class="form-control" id="elFormRegistroPassword" name="password"
                formControlName="password">
         <div class="alert alert-danger alter-ego-errors"
              *ngIf="submitted && password.invalid">
@@ -54,7 +54,7 @@
       </div>
       <div class="form-group">
         <label for="elFormRegistroPasswordRepetida">Clave repetida *</label>
-        <input type="password" class="form-control" id="elFormRegistroPasswordRepetida"
+        <input type="password" class="form-control" id="elFormRegistroPasswordRepetida" name="cofirmPassword"
                formControlName="confirmPassword">
         <div class="alert alert-danger alter-ego-errors"
              *ngIf="submitted && confirmPassword.invalid">
@@ -68,12 +68,14 @@
       </div>
       <div class="form-group">
         <label for="elFormRegistroFechaNacimiento">Fecha de nacimiento</label>
-        <input type="text" class="form-control" id="elFormRegistroFechaNacimiento"
-               placeholder="DD/MM/YYYY"
+        <input type="text" class="form-control" id="elFormRegistroFechaNacimiento" name="birthDate"
+               placeholder="DD/MM/YYYY" readonly
                formControlName="birthDate"
                bsDatepicker placement="top" [bsConfig]="datePickerConfig" [maxDate]="maxDate">
       </div>
-      <button type="elFormRegistroSubmitButton" class="btn btn-primary">Enviar</button>
+      <div class="form-group">
+        <button type="elFormRegistroSubmitButton" class="btn btn-primary">Enviar</button>
+      </div>
     </fieldset>
   </form>
 </section>

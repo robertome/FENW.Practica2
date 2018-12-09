@@ -14,6 +14,11 @@ export class AppConfig {
     dateInputFormat: 'DD/MM/YYYY'
   });
 
+  private _courtsNumber : number = 4;
+  private _startReservationHour: number = 10;
+  private _lastReservationHour: number = 21;
+  private _availableReservationMonths = 2;
+
   private constructor() {
   }
 
@@ -43,4 +48,21 @@ export class AppConfig {
   get datePickerConfig(): Partial<BsDatepickerConfig> {
     return this._datePickerConfig;
   }
+
+  get courtsNumber(): number {
+    return this._courtsNumber;
+  }
+
+  get startReservationHour(): number {
+    return this._startReservationHour;
+  }
+
+  get lastReservationHour(): number {
+    return this._lastReservationHour;
+  }
+
+  get availableReservationMonths(): number {
+    return this._availableReservationMonths;
+  }
+
 }

@@ -9,7 +9,7 @@ import {AppConfig} from '../shared/app-config';
 
 
 @Component({
-  selector: 'app-registry',
+  selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })

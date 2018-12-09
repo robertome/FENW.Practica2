@@ -2,7 +2,8 @@ import {AppMessageType} from './app-message-type.enum';
 
 export class AppMessage {
 
-  constructor(public type: AppMessageType, public text: string) {
+  constructor(public type: AppMessageType,
+              public text: string) {
   }
 
   isSuccess(): boolean {
