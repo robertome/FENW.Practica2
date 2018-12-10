@@ -105,7 +105,7 @@ export class ReservationService {
     let lastReservationHour = AppConfig.getInstance().lastReservationHour;
     let startReservationHour = AppConfig.getInstance().startReservationHour;
     if (DateUtils.isDateToday(date) && date.getHours() > startReservationHour) {
-      startReservationHour = date.getHours();
+      startReservationHour = date.getHours() + 1;
     }
 
     let availableReservations = [];

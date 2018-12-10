@@ -9,7 +9,7 @@ export class Reservation {
 
   static of(courtId: number, date: Date) {
     const strTime = `${date.getHours()}:00`;
-    const strDay = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+    const strDay = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 
     return new Reservation(null, courtId, date.getTime(), strDay, strTime);
   }
