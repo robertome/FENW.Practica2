@@ -1,0 +1,81 @@
+<section id="elSectionRegistro" class="container-fluid">
+  <header class="h1 section-header stoke-text-white">
+    REGISTRO
+  </header>
+  <form role="form" id="elFormRegistro" class="container"
+        [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <fieldset>
+      <legend>Registro de usuario</legend>
+      <div class="form-group">
+        <label for="elFormRegistroUsuario">Usuario *</label>
+        <input type="text" class="form-control" id="elFormRegistroUsuario" name="username"
+               formControlName="username">
+        <div *ngIf="username.pending">Validando...</div>
+        <div class="alert alert-danger alter-ego-errors"
+             *ngIf="username.invalid && (username.dirty || username.touched || submitted)">
+          <div *ngIf="username.errors.required">
+            Usuario obligatorio
+          </div>
+          <div *ngIf="username.errors.minlength">
+            El ususario debe tener al menos 4 caracteres
+          </div>
+          <div *ngIf="username.errors.duplicated">
+            El usuario ya esta registrado
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="elFormRegistroEmail">Email *</label>
+        <input type="email" class="form-control" id="elFormRegistroEmail" name="email"
+               formControlName="email">
+        <div class="alert alert-danger alter-ego-errors"
+             *ngIf="submitted && email.invalid">
+          <div *ngIf="email.errors.required">
+            Email obligatorio
+          </div>
+          <div *ngIf="email.errors.email">
+            El email debe ser válido
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="elFormRegistroPassword">Clave *</label>
+        <input type="password" class="form-control" id="elFormRegistroPassword" name="password"
+               formControlName="password">
+        <div class="alert alert-danger alter-ego-errors"
+             *ngIf="submitted && password.invalid">
+          <div *ngIf="password.errors.required">
+            Clave obligatoria
+          </div>
+          <div *ngIf="password.errors.minlength">
+            La clave debe tener al menos 4 caracteres
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="elFormRegistroPasswordRepetida">Clave repetida *</label>
+        <input type="password" class="form-control" id="elFormRegistroPasswordRepetida" name="cofirmPassword"
+               formControlName="confirmPassword">
+        <div class="alert alert-danger alter-ego-errors"
+             *ngIf="submitted && confirmPassword.invalid">
+          <div *ngIf="confirmPassword.errors.required">
+            Clave repetida obligatoria
+          </div>
+          <div *ngIf="confirmPassword.errors.match">
+            Las claves deben coincidir
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="elFormRegistroFechaNacimiento">Fecha de nacimiento</label>
+        <input type="text" class="form-control" id="elFormRegistroFechaNacimiento" name="birthDate"
+               placeholder="DD/MM/YYYY" readonly
+               formControlName="birthDate"
+               bsDatepicker placement="top" [bsConfig]="datePickerConfig" [maxDate]="maxDate">
+      </div>
+      <div class="form-group">
+        <button type="elFormRegistroSubmitButton" class="btn btn-primary">Enviar</button>
+      </div>
+    </fieldset>
+  </form>
+</section>

@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {User} from '../shared/models/user';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoginRestService} from '../shared/services/login-rest.service';
 import {SessionService} from '../shared/services/session.service';
-import {Subject} from 'rxjs';
 import {Session} from '../shared/models/session';
+import {AppMessageService} from '../shared/services/app-message.service';
 
 @Component({
   selector: 'app-login',
@@ -12,30 +11,51 @@ import {Session} from '../shared/models/session';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  private loginForm: FormGroup;
 
-  private loginService: LoginRestService;
-  private sessionService: SessionService;
-  private model: User;
-
-  constructor(loginService: LoginRestService, sessionService: SessionService) {
-    this.loginService = loginService;
-    this.sessionService = sessionService;
+  constructor(
+    private loginService: LoginRestService,
+    private sessionService: SessionService,
+    private appMessageService: AppMessageService,
+    private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
-    this.model = new User('', '');
+    this.loginForm = this.formBuilder.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required],
+      }
+    );
   }
 
   onSubmit() {
-    this.loginService.login(this.model.username, this.model.password).subscribe(
-      response => {
-        console.dir(response);
-        let token = response.headers.get("Authorization");
-        this.sessionService.setCurrentSession(new Session(token, new User(this.model.username, this.model.password)));
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    const username = this.username.value;
+    const password = this.password.value;
+    this.loginService.login(username, password).subscribe(
+      token => {
+        if (!token) {
+          this.appMessageService.error('Fallo inesperado: se esperaba token de session');
+        } else {
+          this.sessionService.setCurrentSession(new Session(token, username));
+        }
       },
       error => {
-        console.dir(error);
-      });
+        this.appMessageService.error(error);
+        this.loginForm.reset({});
+      }
+    );
+  }
+
+  get username() {
+    return this.loginForm.get('username');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
   }
 
 }

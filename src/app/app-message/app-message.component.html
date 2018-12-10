@@ -1,0 +1,41 @@
+<!-- Vertical Center Modal -->
+<div id="modalDialog" class="modal fade in" role="dialog" tabindex="-1" style="display: block; padding-right: 16px;"
+     *ngIf="showMessage">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header"
+           [ngClass]="{
+                  'alert-danger': message.isError(),
+                  'alert-success': message.isSuccess(),
+                  'alert-warning': message.isWarning(),
+                  'alert-info': message.isInfo() }">
+        <button type="button" class="close" data-dismiss="modal"
+                (click)="close()">×
+        </button>
+        <h4 id="loginErrorModelDialogTitle" class="modal-title"> <!--{{message.type}}--></h4>
+      </div>
+      <div class="modal-body">
+        <span [ngClass]="{
+                  'logo': true,
+                  'glyphicon': true,
+                  'glyphicon-alert': message.isError(), 'text-danger': message.isError(),
+                  'glyphicon-ok-sign': message.isSuccess(), 'text-success': message.isSuccess(),
+                  'glyphicon-exclamation-sign': message.isWarning(), 'text-warning': message.isWarning(),
+                  'glyphicon-info-sign': message.isInfo(), 'text-info': message.isInfo()}"></span>
+        <p id="loginErrorModelDialogText">{{message.text}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal"
+                (click)="close()"
+                [ngClass]="{
+                  'btn': true,
+                  'btn-danger': message.isError(),
+                  'btn-success': message.isSuccess(),
+                  'btn-warning': message.isWarning(),
+                  'btn-info': message.isInfo() }">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

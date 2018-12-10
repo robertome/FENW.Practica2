@@ -1,10 +1,24 @@
 export class User {
-  public username: string;
-  public password: string;
+  username: string;
+  password: string;
+  email: string;
+  birthDate: number;
 
-  constructor(username: string, password: string) {
-    this.username = username;
-    this.password = password;
+  constructor() {
+  }
+
+  static of(username: string, password?: string, email?: string, birthDate?: Date | string): User {
+    let dateAsNumber: number;
+    if (birthDate != null) {
+      dateAsNumber = typeof birthDate === 'string' ? null : birthDate.getTime();
+    }
+
+    return {
+      username: username,
+      password: password,
+      email: email,
+      birthDate: dateAsNumber,
+    };
   }
 
 }
