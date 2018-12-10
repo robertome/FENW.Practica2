@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session';
-import {PartialObserver, Subject, Subscription} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
+import {AppConfig} from '../app-config';
+import {AppMessageService} from './app-message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +13,10 @@ export class SessionService {
   private storageService;
   private currentSession: Session = null;
   private currentSessionSubject: Subject<Session> = new Subject();
+  private pid: number;
 
-  constructor() {
+  constructor(private appMessageService: AppMessageService) {
     this.storageService = sessionStorage;
-    this.currentSession = this.loadSession();
   }
 
   setCurrentSession(session: Session): void {
@@ -25,6 +27,15 @@ export class SessionService {
 
     console.log('Notificando inicio de session a suscriptores...');
     this.currentSessionSubject.next(session);
+
+    if (this.pid != null) {
+      clearTimeout(this.pid);
+    }
+    this.pid = setTimeout(() => {
+        this.appMessageService.info('La sesión ha expirado');
+        this.destroyCurrentSession();
+      },
+      AppConfig.getInstance().sessionTimeout);
   }
 
   private loadSession(): Session {
@@ -37,11 +48,15 @@ export class SessionService {
   }
 
   destroyCurrentSession() {
-    console.log("Session finalizada");
+    console.log('Session finalizada');
 
     this.storageService.removeItem(this.sessionKey);
     this.currentSession = null;
     this.currentSessionSubject.next(null);
+    if (this.pid != null) {
+      clearTimeout(this.pid);
+      this.pid = null;
+    }
   }
 
   subscribe(next?: (value: Session) => void, error?: (error: any) => void, complete?: () => void): Subscription {

@@ -15,7 +15,9 @@ export class AppComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private session: Session;
 
-  constructor(private sessionService: SessionService, private appMessageService: AppMessageService, private localeService: BsLocaleService) {
+  constructor(private sessionService: SessionService,
+              private appMessageService: AppMessageService,
+              private localeService: BsLocaleService) {
     // conf locale datePickers
     this.localeService.use('es');
   }

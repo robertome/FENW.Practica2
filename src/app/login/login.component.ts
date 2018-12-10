@@ -1,13 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {User} from '../shared/models/user';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoginRestService} from '../shared/services/login-rest.service';
 import {SessionService} from '../shared/services/session.service';
-import {Subject} from 'rxjs';
 import {Session} from '../shared/models/session';
 import {AppMessageService} from '../shared/services/app-message.service';
-import {UsernameAvailableAsyncValidator} from '../register/validators/username-available-async-validator';
-import {MatchValidator} from '../register/validators/match-validator';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +13,11 @@ import {MatchValidator} from '../register/validators/match-validator';
 export class LoginComponent implements OnInit {
   private loginForm: FormGroup;
 
-  constructor(private loginService: LoginRestService, private sessionService: SessionService, private appMessageService: AppMessageService, private formBuilder: FormBuilder) {
+  constructor(
+    private loginService: LoginRestService,
+    private sessionService: SessionService,
+    private appMessageService: AppMessageService,
+    private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -46,7 +46,8 @@ export class LoginComponent implements OnInit {
       error => {
         this.appMessageService.error(error);
         this.loginForm.reset({});
-      });
+      }
+    );
   }
 
   get username() {

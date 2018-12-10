@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AppMessage} from '../models/app-message';
-import {PartialObserver, Subject, Subscription} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 import {AppMessageType} from '../models/app-message-type.enum';
 
 
@@ -19,6 +19,14 @@ export class AppMessageService {
 
   error(message: string) {
     this.subject.next(new AppMessage(AppMessageType.Error, message));
+  }
+
+  info(message: string) {
+    this.subject.next(new AppMessage(AppMessageType.Info, message));
+  }
+
+  warning(message: string) {
+    this.subject.next(new AppMessage(AppMessageType.Warning, message));
   }
 
   subscribe(next?: (value: AppMessage) => void, error?: (error: any) => void, complete?: () => void): Subscription {

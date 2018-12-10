@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppMessage} from '../shared/models/app-message';
 import {AppMessageService} from '../shared/services/app-message.service';
 import {Subscription} from 'rxjs';
@@ -8,7 +8,7 @@ import {Subscription} from 'rxjs';
   templateUrl: './app-message.component.html',
   styleUrls: ['./app-message.component.css']
 })
-export class AppMessageComponent implements OnInit {
+export class AppMessageComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
   message: AppMessage;

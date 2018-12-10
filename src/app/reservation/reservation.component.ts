@@ -78,10 +78,7 @@ export class ReservationComponent implements OnInit {
   private buildMinDate(): Date {
     const currentDate = new Date();
     const lastReservationHour = AppConfig.getInstance().lastReservationHour;
-    console.log('currentHour:' + currentDate.getHours());
-    console.log('currentdate.getDate():' + currentDate.getDate());
-    console.log('currentDate + 1 day: ' + DateUtils.nextDay());
-    console.log(`${new Date().getTime()} == ${Date.now()}`);
+
     return currentDate.getHours() < lastReservationHour ? currentDate : DateUtils.nextDay();
   }
 }
